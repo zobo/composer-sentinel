@@ -202,11 +202,15 @@ class ComposerSentinel
 						$new_json .= $char;
 					}
 					break;
-				case '"':
-					if ($c > 0 && $json[$c-1] != '\\')
-					{
-						$in_string = !$in_string;
+				case '\\':
+					if ($in_string) {
+							$new_json .= $char;
+							$char = $json[++$c];
 					}
+					$new_json .= $char;
+					break;
+				case '"':
+					$in_string = !$in_string;
 				default:
 					$new_json .= $char;
 					break;
